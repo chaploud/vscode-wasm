@@ -233,8 +233,8 @@
     },
     "package": {
       "name": "meta.package-decl.wit",
-      "match": "^(package)\\s+([^\\s]+)\\s*",
-      "captures": {
+      "begin": "^(package)\\s+([^\\s]+)\\s*((\\{)?)",
+      "beginCaptures": {
         "1": {
           "name": "storage.modifier.package-decl.wit"
         },
@@ -273,6 +273,32 @@
               }
             }
           ]
+        },
+        "4": {
+          "name": "punctuation.brackets.curly.begin.wit"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#interface"
+        },
+        {
+          "include": "#use"
+        },
+        {
+          "include": "#typedef-item"
+        },
+        {
+          "include": "#whitespace"
+        }
+      ],
+      "end": "(\\}|(?<=;))",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.brackets.curly.end.wit"
         }
       }
     },
@@ -505,7 +531,7 @@
     "interface": {
       "name": "meta.interface-item.wit",
       "comment": "Syntax for WIT like `interface \"id\" {`",
-      "begin": "^\\b(default\\s+)?(interface)\\s+%?((?<![\\-\\w])([a-z][0-9a-z]*|[A-Z][0-9A-Z]*)(([\\-])([a-z][0-9a-z]*|[A-Z][0-9A-Z]*))*)\\s*(\\{)",
+      "begin": "\\b(default\\s+)?(interface)\\s+%?((?<![\\-\\w])([a-z][0-9a-z]*|[A-Z][0-9A-Z]*)(([\\-])([a-z][0-9a-z]*|[A-Z][0-9A-Z]*))*)\\s*(\\{)",
       "beginCaptures": {
         "1": {
           "name": "storage.modifier.default.interface-item.wit"
@@ -662,11 +688,13 @@
           "include": "#whitespace"
         }
       ],
-      "end": "(\\})",
-      "applyEndPatternLast": 1,
+      "end": "(\\})(\\;)?",
       "endCaptures": {
         "1": {
           "name": "punctuation.brackets.curly.end.wit"
+        },
+        "2": {
+          "name": "punctuation.semicolon.wit"
         }
       }
     },
@@ -870,7 +898,6 @@
         }
       ],
       "end": "(\\})",
-      "applyEndPatternLast": 1,
       "endCaptures": {
         "1": {
           "name": "punctuation.brackets.curly.end.wit"
@@ -1213,13 +1240,16 @@
     "resource": {
       "name": "meta.resource-item.wit",
       "comment": "Syntax for WIT like `resource \"id\" {`",
-      "begin": "\\b(resource)\\b\\s+%?((?<![\\-\\w])([a-z][0-9a-z]*|[A-Z][0-9A-Z]*)(([\\-])([a-z][0-9a-z]*|[A-Z][0-9A-Z]*))*)",
+      "begin": "\\b(resource)\\b\\s+%?((?<![\\-\\w])([a-z][0-9a-z]*|[A-Z][0-9A-Z]*)(([\\-])([a-z][0-9a-z]*|[A-Z][0-9A-Z]*))*)((\\s*\\{)?)",
       "beginCaptures": {
         "1": {
           "name": "keyword.other.resource.wit"
         },
         "2": {
           "name": "entity.name.type.id.resource.wit"
+        },
+        "8": {
+          "name": "punctuation.brackets.curly.begin.wit"
         }
       },
       "patterns": [
@@ -1233,8 +1263,12 @@
           "include": "#whitespace"
         }
       ],
-      "end": "((?<=\\n)|(?=\\}))",
-      "applyEndPatternLast": 1
+      "end": "(\\}|(?<=;)|(?=\\}))",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.brackets.curly.end.wit"
+        }
+      }
     },
     "resource-methods": {
       "name": "meta.resource-methods.wit",
