@@ -6,6 +6,24 @@
   "patterns": [
     {
       "include": "#comment"
+    },
+    // package
+    // world
+    // interface
+    {
+      "include": "#operator"
+    },
+    {
+      "include": "#keyword"
+    },
+    {
+      "include": "#integer"
+    },
+    {
+      "include": "#whitespace"
+    },
+    {
+      "include": "#identifier"
     }
   ],
   "repository": {
